@@ -8,20 +8,25 @@ The objective of this project is to create a data model and ETL flow to gather U
 
 ### Data source Details:
 
-The datasets containing airports, airlines, and flights has been provided by the data owners in a shared location and asked to load these datasets into the cloud environments (Databricks and Snowflake) so that they can develop reports and gather insights.
+The datasets containing airports, airlines, and flights Information have been provided by the data owners in a shared location. 
 
 [flight-data - Google Drive](https://drive.google.com/drive/folders/18Mkt2Ku3gIxenT-zjYi68kcufpcvNwbv)
 
 ## Scope:
 
-1. The scope of the project is to create a data pipeline which will accept the source files, process and clean them, transform as per the need of the final data model and load them in dimension and fact tables. We are going to read the source files from google drive to Databricks file system, and then load from DBFS using spark and python to create a data pipeline, and eventually load the processed and transformed data into the data model created in snowflake database.
+1. The scope of the project is to create a data pipeline which will accept the source files, process and clean them, transform as per the need of the final data model and load them in dimension and fact tables. We are going to use Airflow to orchestrate the Databricks jobs to read the source files from google drive, drop and create tables in snowflake, use spark and python to do the transformation and eventually load the processed data into the data model created in snowflake database.
+
+   <img src="C:\Users\vamsi\Desktop\US-Flights Data for Northwood Airlines\images\airflow.PNG" style="zoom: 50%;" />
+
+   
 
 ### Technology used:
 
-1. Databricks
-2. Spark SQL
-3. Pyspark
-4. Snowflake 
+1. Airflow
+2. Databricks
+3. Python
+4. Spark
+5. Snowflake 
 
 ## Structure:
 
@@ -42,13 +47,14 @@ The datasets containing airports, airlines, and flights has been provided by the
 │           ├── partition-07.csv
 │           └── partition-08.csv
 ├── Databricks
-│   ├── Databricks_Snowflake_Data_Pipeline.ipynb
-│   ├── Flight_Data_to_DBFS.ipynb
-│   └── Snowflake_Reports.ipynb
+│   ├── DDL-snowflake.ipynb
+│   ├── Data to DBFS.ipynb
+│   ├── Databricks to Snowflake.ipynb
+│   └── Reports.ipynb
 ├── README.md
 ├── Snowflake
-│   ├── Create_Tables
-│   │   └── Create_Tables.sql
+│   ├── DDL
+│   │   └── DDL.sql
 │   └── Views
 │       ├── Airline_Delays_Info_v.sql
 │       ├── Airlines_Unique_Route_Info_V.sql
@@ -56,24 +62,71 @@ The datasets containing airports, airlines, and flights has been provided by the
 │       ├── Airport_Flight_Cancellations_Info_v.sql
 │       ├── Monthly_Total_Flights_Info_v.sql
 │       └── On_Time_Airline_Info_v.sql
+├── airflow
+│   ├── Dockerfile
+│   ├── airflow_settings.yaml
+│   ├── dags
+│   │   └── Flights_Data.py
+│   ├── include
+│   ├── packages.txt
+│   ├── plugins
+│   └── requirements.txt
 └── images
+    ├── DAG.PNG
+    ├── DDL-snowflake.html
+    ├── Data to DBFS.html
+    ├── Databricks to Snowflake.html
+    ├── Reports.html
     ├── Snowflake_Tables.PNG
-    └── Snowflake_Views.PNG
+    ├── Snowflake_Views.PNG
+    └── airflow.PNG
 
-9 directories, 23 files
+13 directories, 35 files
 ```
 
 ### Data Pipeline Design
 
-The data pipeline was designed using Spark. The whole process was segregated in several phases:
+The data pipeline was designed using Apache Airflow. The whole process was segregated in several phases:
 
-- Creating the dimension tables
-- Loading the dimension tables
-- Creating the facts tables
-- Loading the fact tables
-- Performing data quality checks
+- Copying the Data from Google Shared Drive to Databricks File System
+- Dropping Snowflake fact and Dimension tables
+- Creating the snowflake fact and dimension tables
+- Transforming and Loading into Snowflake
+- Providing Analytic Reports 
+
+Following is the Airflow dag for the whole process:
+
+![](C:\Users\vamsi\Desktop\US-Flights Data for Northwood Airlines\images\DAG.PNG)
 
 ## Development:
+
+#### Airflow:
+
+1. Creating a Databricks Connection by using a Personal Access Token (PAT) to authenticate to the Databricks REST API.
+
+2. The DatabricksSubmitRunOperator makes use of the Databricks Runs Submit API Endpoint and submits a new Spark job run to Databricks.
+
+3. Creating a Databricks job to have the cluster attached and a parameterized notebook as a Task.
+
+4. Defing the Dag to orchestrate couple of spark jobs.
+
+5. DatabricksSubmitRunOperator Parameters:
+
+   new_cluster = {
+
+     'spark_version': '7.3.x-scala2.12',
+
+     'num_workers': 2,
+
+     'node_type_id': 'i3.xlarge',
+
+   }
+
+6. Error Handling: When using the operator, any failure in submitting the job, starting or accessing the cluster, or connecting with the Databricks API will propagate to a failure of the airflow task and generate an error message in the logs. If there is a failure in the job itself, like in one of the notebooks, that failure will also propagate to a failure of the airflow task.  Please check below.
+
+   ![image-20210425210125354](C:\Users\vamsi\AppData\Roaming\Typora\typora-user-images\image-20210425210125354.png)
+
+7. The Pipeline is scheduled to run on a Yearly Basis but we can change into monthly or daily depending on the Business needs.
 
 #####   Databricks: 
 
@@ -81,10 +134,11 @@ The data pipeline was designed using Spark. The whole process was segregated in 
 
 2. Create a Databricks application using a notebook using Python and spark.
 
-3. The application should read in the provided CSV files as data frames
-      1. Flight_Data_to_DBFS will load the Datasets from shared location to DBFS. 
-      2. Databricks_Snowflake_Data_Pipeline Extracts the CSV files and pushes to snowflake.
-   3. Snowflake_Reports provides actionable insights.
+3. The Below Notebook applications performs the following tasks:
+      1. Data to DBFS will load the Datasets from Google shared location to DBFS. 
+      2. DDL-snowflake will drop and create the tables in snowflake.
+   3. Databricks to Snowflake Extracts the CSV files and pushes the transformed data to snowflake.
+   4. Reports provides actionable insights.
 
 #####   Snowflake: 
 
@@ -104,14 +158,25 @@ The data pipeline was designed using Spark. The whole process was segregated in 
 ​           1. Flights
 
 4. Load data from the external stage into corresponding tables.
-
 5. All data persisted within Snowflake.
 
+#### Docker:
 
+To run this DAG use the Astronomer CLI to get an Airflow instance up and running locally:
+
+ 1. [Install the Astronomer CLI](https://www.astronomer.io/docs/cloud/stable/develop/cli-quickstart)
+
+ 2. Clone this repo somewhere locally and navigate to it in your terminal
+
+ 3. Initialize an Astronomer project by running `astro dev init`
+
+ 4. Start Airflow locally by running `astro dev start`
+
+ 5. Navigate to localhost:8080 in your browser and you should see the DAG.
+
+    
 
 ## Reports:
-
-
 
 ### 1. Total number of flights by airline and airport on a monthly basis for year 2015
 
@@ -164,10 +229,4 @@ assert(flightsDF.count() == flightstableDF.count())
 ```
 
 
-
-## Scheduling:
-
-#### The Data pipeline can be run on a monthly basis.
-
-This can be handled using the Apache Airflow or Databricks.
 
