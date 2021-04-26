@@ -170,6 +170,7 @@ To run this DAG use the Astronomer CLI to get an Airflow instance up and running
 
  3. Initialize an Astronomer project by running `astro dev init`
 
+<<<<<<< HEAD
  4. Start Airflow locally by running `astro dev start`
 
  5. Navigate to localhost:8080 in your browser and you should see the DAG.
@@ -178,40 +179,37 @@ To run this DAG use the Astronomer CLI to get an Airflow instance up and running
 
 ## Reports:
 
+=======
+>>>>>>> f90b794541c105e12670fe8db2e0f94ece4c6453
 ### 1. Total number of flights by airline and airport on a monthly basis for year 2015
 
-![](C:\Users\vamsi\Downloads\newplot.png)
-
+![image](https://user-images.githubusercontent.com/48069267/115457627-cbe6f300-a1f2-11eb-97ac-85b486f0ac68.png)
 
 
 ### 2. On time percentage of each airline for the year 2015
 
-![](C:\Users\vamsi\Downloads\newplot (1).png)
-
+![image](https://user-images.githubusercontent.com/48069267/115457915-11a3bb80-a1f3-11eb-8e73-383628a9520a.png)
 
 
 ### 3. Airlines with the largest number of delays for year 2015
 
-![](C:\Users\vamsi\Downloads\newplot (2).png)
-
+![image](https://user-images.githubusercontent.com/48069267/115457948-1cf6e700-a1f3-11eb-8bab-d3f882896afe.png)
 
 
 ### 4. Major Cancellation reasons by airport for year 2015
 
-![](C:\Users\vamsi\Downloads\newplot (3).png)
 
-###  
+![image](https://user-images.githubusercontent.com/48069267/115457988-27b17c00-a1f3-11eb-96df-25207a213d45.png)
+
 
 ### 5. Delay reasons by airport
 
 ![image-20210420154433091](C:\Users\vamsi\AppData\Roaming\Typora\typora-user-images\image-20210420154433091.png)
 
 
-
 ### 6. Airline with the most unique routes
 
-![](C:\Users\vamsi\Downloads\newplot (4).png)
-
+![image](https://user-images.githubusercontent.com/48069267/115458077-44e64a80-a1f3-11eb-9612-5f90132b0530.png)
 
 
 ## Data Quality:
