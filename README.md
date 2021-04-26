@@ -165,7 +165,7 @@ To run this DAG use the Astronomer CLI to get an Airflow instance up and running
 
 =======
 
-### 1. Total number of flights by airline and airport on a monthly basis for year 2015
+### 1. Total number of flights by airline at BWI Airport on a monthly basis for year 2015
 
 ![image](https://user-images.githubusercontent.com/48069267/115457627-cbe6f300-a1f2-11eb-97ac-85b486f0ac68.png)
 
