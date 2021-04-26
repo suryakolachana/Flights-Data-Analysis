@@ -108,23 +108,11 @@ Following is the Airflow dag for the whole process:
 
 4. Defing the Dag to orchestrate couple of spark jobs.
 
-5. DatabricksSubmitRunOperator Parameters:
-
-   new_cluster = {
-
-     'spark_version': '7.3.x-scala2.12',
-
-     'num_workers': 2,
-
-     'node_type_id': 'i3.xlarge',
-
-   }
-
-6. Error Handling: When using the operator, any failure in submitting the job, starting or accessing the cluster, or connecting with the Databricks API will propagate to a failure of the airflow task and generate an error message in the logs. If there is a failure in the job itself, like in one of the notebooks, that failure will also propagate to a failure of the airflow task.  Please check below.
+5. Error Handling: When using the operator, any failure in submitting the job, starting or accessing the cluster, or connecting with the Databricks API will propagate to a failure of the airflow task and generate an error message in the logs. If there is a failure in the job itself, like in one of the notebooks, that failure will also propagate to a failure of the airflow task.  Please check below.
 
    ![image](https://user-images.githubusercontent.com/48069267/116017778-8d946e00-a60e-11eb-9815-c7d0ec301b32.png)
 
-7. The Pipeline is scheduled to run on a Yearly Basis but we can change into monthly or daily depending on the Business needs.
+6. The Pipeline is scheduled to run on a Yearly Basis but we can change into monthly or daily depending on the Business needs.
 
 #####   Databricks: 
 
@@ -167,8 +155,7 @@ To run this DAG use the Astronomer CLI to get an Airflow instance up and running
  2. Clone this repo somewhere locally and navigate to it in your terminal
 
  3. Initialize an Astronomer project by running `astro dev init`
-
-<<<<<<< HEAD
+  
  4. Start Airflow locally by running `astro dev start`
 
  5. Navigate to localhost:8080 in your browser and you should see the DAG.
@@ -178,7 +165,7 @@ To run this DAG use the Astronomer CLI to get an Airflow instance up and running
 ## Reports:
 
 =======
->>>>>>> f90b794541c105e12670fe8db2e0f94ece4c6453
+
 ### 1. Total number of flights by airline and airport on a monthly basis for year 2015
 
 ![image](https://user-images.githubusercontent.com/48069267/115457627-cbe6f300-a1f2-11eb-97ac-85b486f0ac68.png)
@@ -209,20 +196,29 @@ To run this DAG use the Astronomer CLI to get an Airflow instance up and running
 
 ![image](https://user-images.githubusercontent.com/48069267/115458077-44e64a80-a1f3-11eb-9612-5f90132b0530.png)
 
+### Addressing Other Scenarios
 
-## Data Quality:
+1. The Pipeline is broken into multiple stages to monitor for failures, deadlocks and long running tasks.
+2. Managing the metadata such as time of run, end to end time taken and failure reasons.
 
-```
-assert(airlinesDF.count() == airlinestableDF.count())
-```
+### Snowflake Architecture and Benefits:
 
-```
-assert(airportsDF.count() == airportstableDF.count())
-```
-
-```
-assert(flightsDF.count() == flightstableDF.count())
-```
+### Architecture:
+    1. Database Storage: 
+       The database storage layer holds all the data loaded into snowflake, including structured and semi-structured data. snowflake manages all aspects of how the data is              stored: organization, file size, structure,compression,metadata and statistics. This storage layer runs independently of compute resources.
+    2. Compute Layer:
+       The compute layer is made up of virtual warehouses that execute data processing tasks required for queries. Each virtual warehouse (or cluster) can access all the data in        the storage layer, then work independently, so the warehouses do not share, or compete for compute resources. This enables nondisruptive, automatic scaling, which means          that while queries are running, compute resources can scale qithout the need to redistribute or rebalance the data in storage layer.
+    3. Cloud services:
+       The cloud services layer uses ANSI SQL and coordinates the entire system. It eliminates the need for manual data warehouse management and tuning. Services in this layer          include:
+               1. Authentication
+               2. Infrastructure management
+               3. metadata management
+               4. query parsing and optimization
+               5. access control
+### Benefits:
+     1. The snowflake architecture decouples the storage and compute functions, which means organizations that have high storage demands but less need for CPU cycles, or vice           versa, don't have to pay for an integrated bundle that requires them to pay for both.
+     3. Performance and speed - The elastic nature of the cloud means if you want to load data faster, or run a high volume of queries, you can scale up your virtual warehouse           to take advantage of extra compute resources. Afterward, you can scale down the virtual warehouse and pay for only the time you used.
+     4. Concurrency and accessibility - With a traditional data warehouse and a large number of users or use cases, you could experience concurrency issues (suchs as delays or           failures) when too many queries compete for resources. Snowflake addresses concurrency issues with its unique multicluster architecture: Queries from one virtual                 warehouse never affect the queries from another, and each virtual warehouse can scale up or down as required. 
 
 
 
