@@ -203,20 +203,17 @@ To run this DAG use the Astronomer CLI to get an Airflow instance up and running
 ### Snowflake Architecture and Benefits:
 
 ### Architecture:
-    1. Database Storage: 
-       The database storage layer holds all the data loaded into snowflake, including structured and semi-structured data. snowflake manages all aspects of how the data is              stored: organization, file size, structure,compression,metadata and statistics. This storage layer runs independently of compute resources.
-    2. Compute Layer:
-       The compute layer is made up of virtual warehouses that execute data processing tasks required for queries. Each virtual warehouse (or cluster) can access all the data in        the storage layer, then work independently, so the warehouses do not share, or compete for compute resources. This enables nondisruptive, automatic scaling, which means          that while queries are running, compute resources can scale qithout the need to redistribute or rebalance the data in storage layer.
-    3. Cloud services:
-       The cloud services layer uses ANSI SQL and coordinates the entire system. It eliminates the need for manual data warehouse management and tuning. Services in this layer          include:
+    1. Database Storage: The database storage layer holds all the data loaded into snowflake, including structured and semi-structured data. snowflake manages all aspects of how     the data is stored: organization, file size, structure,compression,metadata and statistics. This storage layer runs independently of compute resources.
+    2. Compute Layer:The compute layer is made up of virtual warehouses that execute data processing tasks required for queries. Each virtual warehouse (or cluster) can access        all the data in the storage layer, then work independently, so the warehouses do not share, or compete for compute resources. This enables nondisruptive, automatic scaling,      which means that while queries are running, compute resources can scale qithout the need to redistribute or rebalance the data in storage layer.
+    3. Cloud services: The cloud services layer uses ANSI SQL and coordinates the entire system. It eliminates the need for manual data warehouse management and tuning. Services      in this layer include:
                1. Authentication
                2. Infrastructure management
                3. metadata management
                4. query parsing and optimization
                5. access control
 ### Benefits:
-     1. The snowflake architecture decouples the storage and compute functions, which means organizations that have high storage demands but less need for CPU cycles, or vice           versa, don't have to pay for an integrated bundle that requires them to pay for both.
-     3. Performance and speed - The elastic nature of the cloud means if you want to load data faster, or run a high volume of queries, you can scale up your virtual warehouse           to take advantage of extra compute resources. Afterward, you can scale down the virtual warehouse and pay for only the time you used.
+     1. The snowflake architecture decouples the storage and compute functions, which means organizations that have high storage demands but less need for CPU cycles, or vice         versa, don't have to pay for an integrated bundle that requires them to pay for both.
+     3. Performance and speed - The elastic nature of the cloud means if you want to load data faster, or run a high volume of queries, you can scale up your virtual warehouse         to take advantage of extra compute resources. Afterward, you can scale down the virtual warehouse and pay for only the time you used.
      4. Concurrency and accessibility - With a traditional data warehouse and a large number of users or use cases, you could experience concurrency issues (suchs as delays or           failures) when too many queries compete for resources. Snowflake addresses concurrency issues with its unique multicluster architecture: Queries from one virtual                 warehouse never affect the queries from another, and each virtual warehouse can scale up or down as required. 
      
 ### Databricks Architecture and Benefits:
