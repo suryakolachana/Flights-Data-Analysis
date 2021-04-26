@@ -161,8 +161,7 @@ To run this DAG use the Astronomer CLI to get an Airflow instance up and running
  5. Navigate to localhost:8080 in your browser and you should see the DAG.
 
     
-
-## Reports:
+## Sample Reports:
 
 =======
 
@@ -219,6 +218,29 @@ To run this DAG use the Astronomer CLI to get an Airflow instance up and running
      1. The snowflake architecture decouples the storage and compute functions, which means organizations that have high storage demands but less need for CPU cycles, or vice           versa, don't have to pay for an integrated bundle that requires them to pay for both.
      3. Performance and speed - The elastic nature of the cloud means if you want to load data faster, or run a high volume of queries, you can scale up your virtual warehouse           to take advantage of extra compute resources. Afterward, you can scale down the virtual warehouse and pay for only the time you used.
      4. Concurrency and accessibility - With a traditional data warehouse and a large number of users or use cases, you could experience concurrency issues (suchs as delays or           failures) when too many queries compete for resources. Snowflake addresses concurrency issues with its unique multicluster architecture: Queries from one virtual                 warehouse never affect the queries from another, and each virtual warehouse can scale up or down as required. 
+     
+### Databricks Architecture and Benefits:
 
-
-
+### Architecture:
+     1. Workspace - A workspace is an environment for accessing all of your Databricks assets. A workspace organizes objects (notebooks, libraries, dashboards, and experiments)         into folders and provides access to data objects and computational resources.
+     2. Interface - The Databricks UI provides an easy-to-use graphical interface to workspace folders and their contained objects, data objects, and computational resources.
+     3. Data Management - The objects that hold the data on which you can perform analytics are below:
+                         1. Databricks File System (DBFS) - Contains Directories, files (data files, libraries and images).
+                         2. Database
+                         3. Tables
+                         4. Metastore
+     4. Computation Management - This section describes concepts that you need to know to run computations in Databricks.
+                              1. Cluster - A set of computation resources and configurations on which you run notebooks and jobs. There are two types of clusters: all-purpose                                 and job.You create an all-purpose cluster using the UI, CLI, or REST API. You can manually terminate and restart an all-purpose cluster. Multiple                                 users can share such clusters to do collaborative interactive analysis.The Databricks job scheduler creates a job cluster when you run a job on a                                 new job cluster and terminates the cluster when the job is complete. You cannot restart an job cluster.
+                              2. Pool - A set of idle, ready-to-use instances that reduce cluster start and auto-scaling times. When attached to a pool, a cluster allocates its                               driver and worker nodes from the pool. If the pool does not have sufficient idle resources to accommodate the cluster’s request, the pool expands                                 by allocating new instances from the instance provider. When an attached cluster is terminated, the instances it used are returned to the pool and                               can be reused by a different cluster.
+                              3. Databricks runtime - The set of core components that run on the clusters managed by Databricks. Databricks offers several types of runtimes:
+                              Databricks Runtime includes Apache Spark but also adds a number of components and updates that substantially improve the usability, performance,                                 and security of big data analytics.
+                              4. Job - A non-interactive mechanism for running a notebook or library either immediately or on a scheduled basis.
+                              5. Workload - Databricks identifies two types of workloads subject to different pricing schemes: data engineering (job) and data analytics (all-                                 purpose).Data engineering An (automated) workload runs on a job cluster which the Databricks job scheduler creates for each workload.
+                              Data analytics An (interactive) workload runs on an all-purpose cluster. Interactive workloads typically run commands within a Databricks notebook.                               However, running a job on an existing all-purpose cluster is also treated as an interactive workload.
+                              6. Execution context - The state for a REPL environment for each supported programming language. The languages supported are Python, R, Scala, and                               SQL. 
+### Benefits:
+     1. Databircks provides a zero-management cloud platform built around spark that delivers
+                             1. fully managed Spark clusters.
+                             2. An interactive workspace for exploration and visualization.
+                             3. A production pipeline scheduler.
+                             4. A platform for powering Spark-based applications.
