@@ -16,9 +16,8 @@ The datasets containing airports, airlines, and flights Information have been pr
 
 1. The scope of the project is to create a data pipeline which will accept the source files, process and clean them, transform as per the need of the final data model and load them in dimension and fact tables. We are going to use Airflow to orchestrate the Databricks jobs to read the source files from google drive, drop and create tables in snowflake, use spark and python to do the transformation and eventually load the processed data into the data model created in snowflake database.
 
-   <img src="C:\Users\vamsi\Desktop\US-Flights Data for Northwood Airlines\images\airflow.PNG" style="zoom: 50%;" />
+   ![image](https://user-images.githubusercontent.com/48069267/116017703-57ef8500-a60e-11eb-9013-e835a163fd20.png)
 
-   
 
 ### Technology used:
 
@@ -95,8 +94,7 @@ The data pipeline was designed using Apache Airflow. The whole process was segre
 - Providing Analytic Reports 
 
 Following is the Airflow dag for the whole process:
-
-![](C:\Users\vamsi\Desktop\US-Flights Data for Northwood Airlines\images\DAG.PNG)
+![image](https://user-images.githubusercontent.com/48069267/116017728-65a50a80-a60e-11eb-80fa-e2142650ce86.png)
 
 ## Development:
 
