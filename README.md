@@ -122,7 +122,7 @@ Following is the Airflow dag for the whole process:
 
 6. Error Handling: When using the operator, any failure in submitting the job, starting or accessing the cluster, or connecting with the Databricks API will propagate to a failure of the airflow task and generate an error message in the logs. If there is a failure in the job itself, like in one of the notebooks, that failure will also propagate to a failure of the airflow task.  Please check below.
 
-   ![image-20210425210125354](C:\Users\vamsi\AppData\Roaming\Typora\typora-user-images\image-20210425210125354.png)
+   ![image](https://user-images.githubusercontent.com/48069267/116017778-8d946e00-a60e-11eb-9815-c7d0ec301b32.png)
 
 7. The Pipeline is scheduled to run on a Yearly Basis but we can change into monthly or daily depending on the Business needs.
 
