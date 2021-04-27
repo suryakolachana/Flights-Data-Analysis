@@ -87,7 +87,7 @@ The datasets containing airports, airlines, and flights Information have been pr
 
 The data pipeline was designed using Apache Airflow. The whole process was segregated in several phases:
 
-- Copying the Data from Google Shared Drive to Databricks File System
+- Downloading the Data from Google Shared Drive to Databricks File System
 - Dropping Snowflake fact and Dimension tables
 - Creating the snowflake fact and dimension tables
 - Transforming and Loading into Snowflake
