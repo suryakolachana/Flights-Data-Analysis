@@ -245,3 +245,5 @@ To run this DAG use the Astronomer CLI to get an Airflow instance up and running
                           2. An interactive workspace for exploration and visualization.
                           3. A production pipeline scheduler.
                           4. A platform for powering Spark-based applications.
+### Interesting Articles
+https://www.snowflake.com/blog/snowflake-spark-part-2-pushing-query-processing/
