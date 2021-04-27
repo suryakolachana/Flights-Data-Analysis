@@ -160,6 +160,9 @@ To run this DAG use the Astronomer CLI to get an Airflow instance up and running
 
  5. Navigate to localhost:8080 in your browser and you should see the DAG.
 
+## Spark-Snowflake Interaction:
+![image](https://user-images.githubusercontent.com/48069267/116288006-0acef880-a75f-11eb-923d-915493fb15f6.png)
+
     
 ## Sample Reports:
 
