@@ -204,7 +204,7 @@ To run this DAG use the Astronomer CLI to get an Airflow instance up and running
 
 ### Architecture:
  1. Database Storage: The database storage layer holds all the data loaded into snowflake, including structured and semi-structured data. snowflake manages all aspects of how     the data is stored: organization, file size, structure,compression,metadata and statistics. This storage layer runs independently of compute resources.
- 2. Compute Layer:The compute layer is made up of virtual warehouses that execute data processing tasks required for queries. Each virtual warehouse (or cluster) can access        all the data in the storage layer, then work independently, so the warehouses do not share, or compete for compute resources. This enables nondisruptive, automatic scaling,      which means that while queries are running, compute resources can scale qithout the need to redistribute or rebalance the data in storage layer.
+ 2. Compute Layer:The compute layer is made up of virtual warehouses that execute data processing tasks required for queries. Each virtual warehouse (or cluster) can access        all the data in the storage layer, then work independently, so the warehouses do not share, or compete for compute resources. This enables nondisruptive, automatic scaling,      which means that while queries are running, compute resources can scale without the need to redistribute or rebalance the data in storage layer.
  3. Cloud services: The cloud services layer uses ANSI SQL and coordinates the entire system. It eliminates the need for manual data warehouse management and tuning. Services      in this layer include:
             1. Authentication
             2. Infrastructure management
